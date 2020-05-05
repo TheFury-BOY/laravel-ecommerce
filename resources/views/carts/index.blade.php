@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Panier
+@endsection
+
 @section('content')
     <div class="px-4 px-lg-0">
         <div class="pb-5">
@@ -98,7 +102,7 @@
                                         class="text-muted">Total</strong>
                                     <h5 class="font-weight-bold">{{ getPrice(Cart::total()) }}</h5>
                                 </li>
-                            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Passer au paiement</a>
+                            </ul><a href="{{ route('checkout.index') }}" class="btn btn-dark rounded-pill py-2 btn-block">Passer au paiement</a>
                         </div>
                     </div>
                 </div>

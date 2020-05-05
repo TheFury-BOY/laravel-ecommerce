@@ -31,3 +31,7 @@ Route::delete('/panier/{rowId}', 'CartsController@destroy')->name('carts.destroy
 Route::get('viderpanier', function() {
     Cart::destroy();
 });
+
+/* Checkout Routes */
+Route::get('/paiement', 'CheckoutController@index')->name('checkout.index');
+Route::post('/paiement', 'CheckoutController@store')->name('checkout.store');

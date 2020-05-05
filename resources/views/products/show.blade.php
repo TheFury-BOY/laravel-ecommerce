@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+    {{ $product->title }}
+@endsection
+
 @section('content')
 <div class="col-md-12">
     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">

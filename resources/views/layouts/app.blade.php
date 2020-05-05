@@ -7,7 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="Dudeck Adrien">
     <meta name="generator" content="Jekyll v3.8.6">
-    <title>Blog Template · Bootstrap</title>
+    @yield('extra-meta')
+    <title>E-commerce · @yield('title')</title>
+
+    <!-- Extra-Scrit -->
+    @yield('extra-script')
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('lib/bootstrap-4.4.1/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -27,9 +31,6 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/ecommerce.css') }}" rel="stylesheet">
 
-    <!--Bootstrap core JS -->
-    <script src="{{ asset('lib/bootstrap-4.4.1/js/bootstrap.min.js') }}">
-    </script>
 </head>
 
 <body>
@@ -235,6 +236,12 @@
             <a href="#">Back to top</a>
         </p>
     </footer>
+    <!-- Jquery core JS -->
+    <script src="{{ asset('lib/jquery@3.4.1/jquery-3.4.1.min.js') }}"></script>
+    <!-- Bootstrap core JS -->
+    <script src="{{ asset('lib/bootstrap-4.4.1/js/bootstrap.min.js') }}">
+    </script>
+    @yield('extra-js')
 </body>
 
 </html>

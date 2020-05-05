@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Nos produits
+@endsection
+
 @section('content')
 @foreach ($products as $product)
 <div class="col-md-6">
