@@ -14,9 +14,9 @@ Paiement
 
 @section('content')
 <div class="col-md-12">
-    <h1>Page de Paiement</h1>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mx-auto">
+            <h3 class="text-center display-4">Finalisez votre commande</h3>
             <form action="{{ route('checkout.store') }}" method="POST" id="payment-form" class="my-4">
                 @csrf
                 <div id="card-element">
@@ -26,7 +26,7 @@ Paiement
                 <!-- We'll put the error messages in this element -->
                 <div id="card-errors" role="alert"></div>
 
-                <button class="btn btn-success mt-3" id="submit">Procéder au paiement</button>
+                <button class="btn btn-success btn-block mt-3" id="submit">Procéder au paiement ({{ getPrice(Cart::total()) }})</button>
             </form>
         </div>
     </div>
@@ -35,7 +35,7 @@ Paiement
 
 @section('extra-js')
 <script>
-    var stripe = Stripe('pk_test_bJASiljB7NKZDZ1lMXspckMV00G6UQ');
+    var stripe = Stripe('pk_test_bJASiljB7NKZDZ1lMXspckMV00G6UQ322o');
     var elements = stripe.elements();
     var style = {
         base: {
@@ -75,7 +75,7 @@ Paiement
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         submitButton.disabled = true;
-        stripe.confirmCardPayment("{{ $clientSecret }}", {
+        stripe.confirmCardPayment( "{{ $clientSecret }}", {
             payment_method: {
                 card: card
             }
@@ -106,7 +106,7 @@ Paiement
                             })
                         }).then((data) => {
                         console.log(data)
-                        // windows.location.href = redirect
+                        window.location.href = redirect
                     }).catch((error) => {
                         console.log(error)
                     })

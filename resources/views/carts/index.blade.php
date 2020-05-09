@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('extra-meta')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('title')
     Panier
 @endsection
@@ -46,8 +50,13 @@
                                                 </div>
                                             </div>
                                         </th>
-                                        <td class="border-0 align-middle"><strong>{{ $product->model->getPrice() }}</strong></td>
-                                        <td class="border-0 align-middle"><strong>1</strong></td>
+                                        <td class="border-0 align-middle"><strong>{{ getPrice($product->subtotal()) }}</strong></td>
+                                        <td class="border-0 align-middle">
+                                            <select name="qty" id="qty" data-id="{{ $product->rowId }}" class="custom-select">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <option value="{{ $i }}" {{ $i == $product->qty ? 'selected' : '' }}>{{ $i }}</option>
+                                                @endfor
+                                            </select></td>
                                         <td class="border-0 align-middle">
                                             <form action="{{ route('carts.destroy', $product->rowId) }}" method="POST">
                                                 @csrf
@@ -116,4 +125,38 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+<script>
+    var selects = document.querySelectorAll('#qty');
+    var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    Array.from(selects).forEach((element) => {
+        element.addEventListener('change', function () {
+            let rowId = this.getAttribute('data-id');
+            fetch(
+                    `/panier/${rowId}`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json, text-plain, */*",
+                            "X-Request-with": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": token
+                        },
+                        method: 'patch',
+                        body: JSON.stringify({
+                            'qty': this.value
+                        })
+                    }
+                ).then((data) => {
+                    console.log(data);
+                    //revient sur la page
+                    location.reload();
+                }).catch((error) => {
+                    console.log(error)
+                })
+        });
+    });
+</script>
 @endsection

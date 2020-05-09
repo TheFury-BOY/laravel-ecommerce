@@ -15,8 +15,14 @@ class ProductsController extends Controller
     */
     public function index()
     {
-
-        $products = Product::inRandomOrder()->take(6)->get();
+        if (request()->category) {
+            $products = Product::with('categories')->whereHas('categories', function ($query) {
+                //récupére le slug dans l'url
+                $query->where('slug', request()->category);
+            })->paginate(6);
+        } else {
+            $products = Product::with('categories')->paginate(6);
+        }
 
         return view('products.index')->with('products', $products);
     }

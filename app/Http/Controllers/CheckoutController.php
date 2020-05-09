@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Stripe\Stripe;
+use App\Models\Order;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
@@ -26,13 +29,16 @@ class CheckoutController extends Controller
         $intent = PaymentIntent::create([
             'amount' => round(Cart::total()),
             'currency' => 'eur',
+            'metadata' => [
+                'userId' => 15,
+            ]
         ]);
 
         //Arr est un helper pour les tableau Laravel
         $clientSecret = Arr::get($intent, 'client_secret');
 
         return view('checkout.index', [
-            'clientSecret' => $clientSecret
+            'clientSecret' => $clientSecret,
         ]);
     }
 
@@ -54,10 +60,38 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        Cart::destroy();
+
         $data = $request->json()->all();
 
-        return $data('paymentIntent');
+        $order = new Order();
+
+        $order->payment_intent_id = $data['paymentIntent']['id'];
+        $order->amount = $data['paymentIntent']['amount'];
+        $order->payment_created_at = (new DateTime())
+            ->setTimeStamp($data['paymentIntent']['created'])
+            ->format('Y-m-d H:i:s');
+
+        $products = [];
+        $i = 0;
+
+        foreach (Cart::content() as $product) {
+            $products['product_' . $i][] = $product->model->title;
+            $products['product_' . $i][] = $product->model->price;
+            $products['product_' . $i][] = $product->qty;
+            $i++;
+        }
+
+        $order->products = serialize($products);
+        $order->user_id = 15;
+        $order->save();
+
+        if ($data['paymentIntent']['status'] === 'succeeded') {
+            Cart::destroy();
+            Session::flash('success', 'Votre commande a été traité avec succès.');
+            return response()->json(['success' => 'Payment Intent succeeded']);
+        } else {
+            return response()->json(['error' => 'Payment Intent failed']);
+        }
     }
 
     /**
@@ -103,5 +137,10 @@ class CheckoutController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function thankYou()
+    {
+        return Session::has('success') ? view('checkout.thankyou') : redirect()->route('products.index');
     }
 }

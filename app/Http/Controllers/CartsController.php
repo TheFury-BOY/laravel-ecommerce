@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Validator;
 
 class CartsController extends Controller
 {
@@ -83,9 +85,23 @@ class CartsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $rowId)
     {
-        //
+        $data = $request->json()->all();
+
+        $validate = Validator::make($request->all(), [
+            'qty' => 'required|numeric|between:1,5'
+        ]);
+
+        if ($validate->fails()) {
+            Session::flash('error', 'La quantité du produit ne doit pas dépasser 5.');
+            return response()->json(['error' => 'Cart Quantity hasn\'t been Updated.']);
+        }
+
+        Cart::update($rowId, $data['qty']);
+
+        Session::flash('success', 'La quantité du produit est passée à ' . $data['qty'] . '.');
+        return response()->json(['success' => 'Cart Quantity has been Updated.']);
     }
 
     /**
