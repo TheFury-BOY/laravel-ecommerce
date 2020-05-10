@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('payment_created_at');
             $table->text('products');
             $table->BigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

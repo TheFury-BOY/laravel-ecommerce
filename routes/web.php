@@ -23,16 +23,27 @@ Route::get('/', function () {
 /* Products Routes */
 Route::get('/boutique', 'ProductsController@index')->name('products.index');
 Route::get('/boutique/{slug}', 'ProductsController@show')->name('products.show');
+Route::get('/search', 'ProductsController@search')->name('products.search');
 
-/* Carts Routes */
-Route::get('/panier', 'CartsController@index')->name('carts.index');
-Route::post('/panier/ajouter', 'CartsController@store')->name('carts.store');
-Route::patch('/panier/{rowId}', 'CartsController@update')->name('carts.update');
-Route::delete('/panier/{rowId}', 'CartsController@destroy')->name('carts.destroy');
+Route::group(['middleware' => ['auth']], function () {
+    /* Carts Routes */
+    Route::get('/panier', 'CartsController@index')->name('carts.index');
+    Route::post('/panier/ajouter', 'CartsController@store')->name('carts.store');
+    Route::patch('/panier/{rowId}', 'CartsController@update')->name('carts.update');
+    Route::delete('/panier/{rowId}', 'CartsController@destroy')->name('carts.destroy');
+
+    /* Checkout Routes */
+    Route::get('/paiement', 'CheckoutController@index')->name('checkout.index');
+    Route::post('/paiement', 'CheckoutController@store')->name('checkout.store');
+    Route::get('/merci', 'CheckoutController@thankYou')->name('checkout.thankyou');
+});
 
 
 
-/* Checkout Routes */
-Route::get('/paiement', 'CheckoutController@index')->name('checkout.index');
-Route::post('/paiement', 'CheckoutController@store')->name('checkout.store');
-Route::get('/merci', 'CheckoutController@thankYou')->name('checkout.thankyou');
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

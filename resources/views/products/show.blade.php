@@ -13,7 +13,7 @@
             @endforeach</strong>
             <h5 class="mb-0">{{ $product->title }}</h5>
             <div class="mb-1 text-muted">{{ $product->created_at->format('d/m/y') }}</div>
-            <p class="card-text mb-auto">{{ $product->description }}</p>
+            <p class="card-text mb-auto">{!! $product->description !!}</p>
             <strong class="card-text mb-auto">{{ $product->getPrice() }}</strong>
             <form action="{{ route('carts.store') }}" method="POST">
                 @csrf
@@ -22,7 +22,7 @@
             </form>
         </div>
         <div class="col-auto d-none d-lg-block">
-            <img src="{{ $product->image }}" alt="thumbnail">
+            <img src="{{ asset('storage/' . $product->image) }}" alt="thumbnail">
         </div>
     </div>
 </div>

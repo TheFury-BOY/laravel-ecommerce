@@ -3,7 +3,7 @@
     src: url('../fonts/Jost-VariableFont_ital_wght.ttf');
 }
 
-/*Stipe Elements*/
+/*Stripe Elements*/
 .StripeElement
 {
 	box-sizing: border-box;
@@ -50,17 +50,17 @@
 
 /* stylelint-disable selector-list-comma-newline-after */
 
-.blog-header {
+.header {
     line-height: 1;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.blog-header-logo {
+.header-logo {
     font-family: "Jost", Arial, sans-serif;
     font-size: 2.25rem;
 }
 
-.blog-header-logo:hover {
+.header-logo:hover {
     text-decoration: none;
 }
 
@@ -101,7 +101,12 @@ h1, h2, h3, h4, h5, h6 {
 .nav-scroller .nav-link {
     padding-top: .75rem;
     padding-bottom: .75rem;
-    font-size: .875rem;
+    font-size: 1rem;
+    color: rgb(146, 146, 146);
+}
+
+.nav-scroller .nav-link :hover {
+    color: rgb(0, 0, 0);
 }
 
 .card-img-right {
@@ -125,27 +130,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Pagination */
-.blog-pagination {
+.pagination {
     margin-bottom: 4rem;
 }
 
-.blog-pagination>.btn {
+.pagination>.btn {
     border-radius: 2rem;
 }
 
 /*
-* Blog posts
+* Blog products
 */
-.blog-post {
+.product {
     margin-bottom: 4rem;
 }
 
-.blog-post-title {
+.product-title {
     margin-bottom: .25rem;
     font-size: 2.5rem;
 }
 
-.blog-post-meta {
+.product-meta {
     margin-bottom: 1.25rem;
     color: #999;
 }
@@ -153,7 +158,7 @@ h1, h2, h3, h4, h5, h6 {
 /*
 * Footer
 */
-.blog-footer {
+.footer {
     padding: 2.5rem 0;
     color: #999;
     text-align: center;
@@ -161,6 +166,6 @@ h1, h2, h3, h4, h5, h6 {
     border-top: .05rem solid #e5e5e5;
 }
 
-.blog-footer p:last-child {
+.footer p:last-child {
     margin-bottom: 0;
 }

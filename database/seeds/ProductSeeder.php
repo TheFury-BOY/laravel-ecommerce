@@ -2,6 +2,7 @@
 
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -12,6 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+
         $faker = Faker\Factory::create();
 
         for ($i=0; $i < 30; $i++) {
@@ -21,7 +23,7 @@ class ProductSeeder extends Seeder
                 'subtitle' => $faker->sentence(5),
                 'description' =>$faker->text,
                 'price' => $faker->numberBetween(10,300) * 100,
-                'image' => 'https://via.placeholder.com/200x250'
+                'image' => $faker->imageUrl(200, 250, 'technics')
             ])->categories()->attach([
                 rand(1, 4),
                 rand(1, 4)

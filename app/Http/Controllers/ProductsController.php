@@ -19,9 +19,9 @@ class ProductsController extends Controller
             $products = Product::with('categories')->whereHas('categories', function ($query) {
                 //récupére le slug dans l'url
                 $query->where('slug', request()->category);
-            })->paginate(6);
+            })->orderBy('created_at', 'DESC')->paginate(6);
         } else {
-            $products = Product::with('categories')->paginate(6);
+            $products = Product::with('categories')->orderBy('created_at', 'DESC')->paginate(6);
         }
 
         return view('products.index')->with('products', $products);
@@ -39,5 +39,20 @@ class ProductsController extends Controller
         $product = Product::where('slug', $slug)->firstOrFail();
 
         return view('products.show')->with('product', $product);
+    }
+
+    public function search()
+    {
+        request()->validate([
+            'search' => 'required|min:4',
+        ]);
+
+        $search = request()->input('qry');
+
+        $products = Product::where('title', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%")
+                ->paginate(6);
+
+                return view('products.search')->with('products', $products);
     }
 }

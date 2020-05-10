@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -12,6 +14,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
+
         Category::create([
             'name' => 'High Tech',
             'slug' => 'high-tech',

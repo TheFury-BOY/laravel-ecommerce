@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Nos produits
+    Recherche
 @endsection
 
 @section('content')
@@ -27,4 +27,3 @@
 @endforeach
 {{ $products->appends(request()->input())->links() }}
 @endsection
-
