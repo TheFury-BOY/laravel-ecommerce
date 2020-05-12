@@ -9,7 +9,6 @@ use App\Models\Product;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -28,10 +27,6 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-
-        if(Gate::denies('buy-products')){
-            return redirect()->route('login');
-        };
 
         if (Cart::count() <= 0) {
             return redirect()->route('products.index');
