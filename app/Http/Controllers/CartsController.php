@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Validator;
 
 class CartsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -96,6 +103,11 @@ class CartsController extends Controller
         if ($validate->fails()) {
             Session::flash('error', 'La quantité du produit ne doit pas dépasser 5.');
             return response()->json(['error' => 'Cart Quantity hasn\'t been Updated.']);
+        }
+
+        if($data['qty'] > $data['stock']) {
+            Session::flash('error', 'La quantité demandée n\'est pas disponible.');
+            return response()->json(['error' => 'Product Quantity hasn\'t been Updated.']);
         }
 
         Cart::update($rowId, $data['qty']);

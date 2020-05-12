@@ -88,7 +88,6 @@ Paiement
                 if (result.paymentIntent.status === 'succeeded') {
                     var paymentIntent = result.paymentIntent;
                     var url = form.action;
-                    var redirect = '/merci';
                     var token = document.querySelector('meta[name="csrf-token"]').getAttribute(
                         'content');
 
@@ -105,6 +104,11 @@ Paiement
                                 paymentIntent: paymentIntent
                             })
                         }).then((data) => {
+                        if (data.status === 400) {
+                            var redirect = '/boutique';
+                        } else {
+                            var redirect = '/merci';
+                        }
                         console.log(data)
                         window.location.href = redirect
                     }).catch((error) => {

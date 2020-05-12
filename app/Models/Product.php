@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $fillable = ['stock'];
+
     /**
      * Formate le prix des articles pour qu'il soit au format fr
      */

@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use DateTime;
 use Stripe\Stripe;
 use App\Models\Order;
+use App\Models\Product;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +28,11 @@ class CheckoutController extends Controller
      */
     public function index()
     {
+
+        if(Gate::denies('buy-products')){
+            return redirect()->route('login');
+        };
+
         if (Cart::count() <= 0) {
             return redirect()->route('products.index');
         }
@@ -60,6 +73,10 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
+        if ($this->checkIfNotAvailable()) {
+            Session::flash('error', 'Un produit dans votre panier n\'est plus diponible.');
+            return response()->json(['success' => false], 400);
+        }
 
         $data = $request->json()->all();
 
@@ -86,6 +103,7 @@ class CheckoutController extends Controller
         $order->save();
 
         if ($data['paymentIntent']['status'] === 'succeeded') {
+            $this->updateStock();
             Cart::destroy();
             Session::flash('success', 'Votre commande a été traité avec succès.');
             return response()->json(['success' => 'Payment Intent succeeded']);
@@ -142,5 +160,35 @@ class CheckoutController extends Controller
     public function thankYou()
     {
         return Session::has('success') ? view('checkout.thankyou') : redirect()->route('products.index');
+    }
+
+    /**
+     * Verifie si le stock demandée est inférieur ou égal au stock dispo
+     */
+    private function checkIfNotAvailable()
+    {
+        foreach (Cart::content() as $item) {
+            $product = Product::find($item->model->id);
+
+            if ($product->stock < $item->qty) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Met à jour le stock de produits
+     */
+    private function updateStock()
+    {
+        foreach (Cart::content() as $item) {
+            $product = Product::find($item->model->id);
+
+            $product->update([
+                'stock' => $product->stock - $item->qty
+            ]);
+        }
     }
 }
