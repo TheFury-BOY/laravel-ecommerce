@@ -16,7 +16,7 @@
         <span class="card-text mb-auto">{!! $product->description !!}</span>
         <strong class="card-text mb-2 display-4 text-muted">{{ $product->getPrice() }}</strong>
         @if ($stock === "Disponible")
-        <form action="{{ route('carts.store') }}" method="POST">
+        <form action="{{ route('cart.store') }}" method="POST">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
             <button type="submit" class="btn btn-info"><i class="fas fa-plus"></i> Ajouter au panier</button>

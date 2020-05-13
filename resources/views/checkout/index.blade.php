@@ -26,7 +26,7 @@ Paiement
                 <!-- We'll put the error messages in this element -->
                 <div id="card-errors" role="alert"></div>
 
-                <button class="btn btn-success btn-block mt-3" id="submit">Procéder au paiement ({{ getPrice(Cart::total()) }})</button>
+                <button class="btn btn-success btn-block mt-3" id="submit">Procéder au paiement ({{ getPrice($total) }})</button>
             </form>
         </div>
     </div>

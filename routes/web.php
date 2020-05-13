@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductsController;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +30,15 @@ Route::get('/search', 'ProductsController@search')->name('products.search');
 
 Route::group(['middleware' => ['auth']], function () {
     /* Carts Routes */
-    Route::get('/panier', 'CartsController@index')->name('carts.index');
-    Route::post('/panier/ajouter', 'CartsController@store')->name('carts.store');
-    Route::patch('/panier/{rowId}', 'CartsController@update')->name('carts.update');
-    Route::delete('/panier/{rowId}', 'CartsController@destroy')->name('carts.destroy');
+    Route::get('/panier', 'CartsController@index')->name('cart.index');
+    Route::post('/panier/ajouter', 'CartsController@store')->name('cart.store');
+    Route::patch('/panier/{rowId}', 'CartsController@update')->name('cart.update');
+    Route::delete('/panier/{rowId}', 'CartsController@destroy')->name('cart.destroy');
+});
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('/coupon', 'CouponsController@store')->name('coupon.store');
+    Route::delete('/coupon', 'CouponsController@destroy')->name('coupon.destroy');
 });
 
 Route::group(['middleware' => ['auth']], function () {

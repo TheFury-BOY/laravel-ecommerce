@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\UserHasRegisteredEvent;
 use App\Listeners\UserHasRegisteredListener;
+use App\Listeners\CartUpdatedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,6 +20,15 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         UserHasRegisteredEvent::class => [
             UserHasRegisteredListener::class,
+        ],
+        'cart.added' => [
+            CartUpdatedListener::class,
+        ],
+        'cart.updated' => [
+            CartUpdatedListener::class,
+        ],
+        'cart.removed' => [
+            CartUpdatedListener::class,
         ],
     ];
 

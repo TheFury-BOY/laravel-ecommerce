@@ -43,7 +43,7 @@
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-4 pt-1">
                     @if(Auth::check())
-                    <a class="text-dark nav-link" href="{{ route('carts.index') }}"><i class="fas fa-cart-arrow-down"></i>
+                    <a class="text-dark nav-link" href="{{ route('cart.index') }}"><i class="fas fa-cart-arrow-down"></i>
                         PANIER <span class="badge badge-pill badge-info">{{ Cart::count() }}
                             <!--Retourne le nombre d'article dans le panier--></span></a>
                     @endif
