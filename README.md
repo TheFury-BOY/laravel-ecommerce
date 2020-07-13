@@ -1,11 +1,34 @@
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
-
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
+
+## E-commerce App
+
+The App is a little template,you can use if you want to begin your E-commerce Website, It use The **Laravel Framework**, and **Bootstrap** for the Design.
+
+* Voyager is used for the Back-Office, you can go on [Voyager Documentation](https://voyager-docs.devdojo.com/) to learn to install it.
+* Bootstrap is used for the design of the template ([documentation](https://getbootstrap.com/docs/4.5/getting-started/introduction/))
+* To install the app :
+    1. composer install
+    2. npm install
+    3. Go to Voyager [documentation](https://voyager-docs.devdojo.com/getting-started/installation)
+    4. Go to MailTrap [Help section](https://mailtrap.uservoice.com/forums/142303-general/suggestions/35703817-add-laravel-env-file-boilerplate-instead-of-confi)
+    5. Create your .env file with the add of Voyager and MailTrap requirements
+    6. Create your Database and make your migration with artisan
+    7. Let's Go, you can use your E-commerce App.
+
+### Coming Soon in the App
+
+* a Docker env for the Development.
+* a new .env-example file with Voyager and Mail Trap Changes.
+* a Best Documentation.
+* Many updates in the code and Design.
+
+[Lien vers adriendudeck.online](https://adriendudeck.online) :grin:
 
 ## About Laravel
 
